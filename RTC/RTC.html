@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>จองโต๊ะร้านอาหาร</title>
+  <link rel="stylesheet" href="RTC.css">
+</head>
+<body>
+  <div class="container">
+    <h1>จองโต๊ะร้านอาหาร</h1>
+
+    <!-- ฟอร์มจอง -->
+    <form id="bookingForm">
+      <label for="name">ชื่อผู้จอง:</label>
+      <input type="text" id="name" required>
+
+      <label for="phone">เบอร์โทรศัพท์:</label>
+      <input type="tel" id="phone" required>
+
+      <label for="date">วันที่ต้องการจอง:</label>
+      <input type="date" id="date" required>
+
+      <label for="time">เวลาที่ต้องการจอง:</label>
+      <input type="time" id="time" required>
+
+      <label for="guests">จำนวนคน:</label>
+      <input type="number" id="guests" min="1" max="20" required>
+
+      <button type="submit">ยืนยันการจอง</button>
+    </form>
+
+    <!-- หน้า QR Code -->
+    <div id="qrSection" class="hidden">
+      <h2>สแกนคิวอาร์โค้ดเพื่อยืนยันการจอง</h2>  
+      <p>นำมือถือของคุณสแกนคิวอาร์โค้ดด้านล่าง</p>
+
+      <!-- ถ้าจะใช้ QR จริง เปลี่ยนเป็น <img src="qr.png"> -->
+      <div class="qr-box">
+        <div class="fake-qr">QR CODE</div>
+        <img src="https://cdn.discordapp.com/attachments/861497943319904311/1440005068266147910/QR_code_for_mobile_English_Wikipedia.svg.webp?ex=691c94ba&is=691b433a&hm=c4d6612aaadc89ae2a53fed16ba553e91b9c5f04b88325d11c178b5f979a709d" alt="" width="300px">
+      </div>
+
+      <button type="button" id="scanDoneBtn">สแกนเสร็จแล้ว</button>
+    </div>
+  </div>
+
+  <!-- POPUP บิลการจอง -->
+  <div id="billModal" class="modal hidden">
+    <div class="modal-content">
+      <h2>บิลการจอง</h2>
+      <div class="modal-body">
+        <p id="billText"></p>
+      </div>
+      <button type="button" id="closeModalBtn" class="close-btn">ปิด</button>
+    </div>
+  </div>
+
+  <script src="RTC.js"></script>
+</body>
+</html>
