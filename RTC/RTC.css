@@ -1,6 +1,6 @@
 body {
   font-family: sans-serif;
-  background: linear-gradient(135deg, #0b0f19, #001a33);
+  background: oklab(18.281% 0.03454 0.02707 / 0.911);
   color: white;
   display: flex;
   justify-content: center;
@@ -10,52 +10,54 @@ body {
 }
 
 .container {
-  background: rgba(255, 255, 255, 0.07);
   padding: 25px;
   border-radius: 12px;
   width: 90%;
   max-width: 350px;
-  border: 1px solid rgba(0, 150, 255, 0.2);
-  box-shadow: 0 0 15px rgba(0, 150, 255, 0.2);
+  border: 1px solid rgba(255, 208, 106, 0.2);
+  box-shadow: 0 0 15px rgba(255, 208, 106, 0.2);
+}
+
+.card-media img{
+  width:100%; height:180px; object-fit:cover;
 }
 
 h1, h2 {
   text-align: center;
-  color: #4db8ff;
+  color: #ffffff;
   font-size: 20px;
 }
 
 input {
-  width: 100%;
+  width: 95%;
   margin-top: 5px;
   padding: 8px;
   border-radius: 8px;
   border: none;
   outline: none;
-  background: #101827;
+  background:rgba(255, 255, 255, 0.2);
   color: white;
-  border: 1px solid #244f7d;
+  border: 3px solid rgba(255, 255, 255, 0.2);
 }
 
 input:focus {
-  border-color: #4db8ff;
+  border-color: #a08c6a;
 }
 
 button {
   width: 100%;
-  margin-top: 15px;
+  margin-top: 36px;
   padding: 10px;
   border: none;
   border-radius: 8px;
-  background: #1e73ff;
-  color: white;
+  background: #c25e00;
   cursor: pointer;
   transition: .2s;
 }
 
 button:hover {
-  background: #4db8ff;
-  box-shadow: 0 0 10px #4db8ff;
+  background: #c25e00;
+  box-shadow: 0 0 10px #c25e00;
   transform: scale(1.03);
 }
 
