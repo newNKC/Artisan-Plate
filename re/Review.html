@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>รีวิวร้านอาหาร</title>
+  <link rel="stylesheet" href="Review.css">
+</head>
+<body>
+
+  <div class="bg"></div>
+
+  <h1 class="title"> 🙏 Customer reviews 🙏</h1>
+
+  <section id="receiptSection" class="center-box">
+    <h3>ยืนยันการใช้บริการ</h3>
+    <p class="sub">กรุณากรอกเลขที่ใบเสร็จจากร้านอาหาร</p>
+
+    <input type="text" id="receiptInput" placeholder="เช่น BILL-000001">
+    <button id="verifyBtn">ยืนยันใบเสร็จ</button>
+
+    <p id="receiptStatus" class="status-text">ยังไม่ได้ยืนยัน</p>
+  </section>
+
+  <section id="reviewSection" class="hidden">
+    <h2>เขียนรีวิว</h2>
+    <div>
+        <label for="name">ชื่อ:</label>
+        <input type="text" id="name" placeholder="ชื่อของคุณ">
+    </div>
+    <div>
+        <label for="rating">คะแนน:</label>
+        <select id="rating">
+            <option value="5">5 ดาว ⭐⭐⭐⭐⭐</option>
+            <option value="4">4 ดาว ⭐⭐⭐⭐</option>
+            <option value="3">3 ดาว ⭐⭐⭐</option>
+            <option value="2">2 ดาว ⭐⭐</option>
+            <option value="1">1 ดาว ⭐</option>
+        </select>
+    </div>
+    <div>
+        <label for="reviewText">รีวิวของคุณ:</label>
+        <textarea id="reviewText" rows="5" placeholder="เขียนรีวิวที่นี่..."></textarea>
+    </div>
+    <button id="submitReview">ส่งรีวิว</button>
+    <p id="message" style="margin-top: 10px;"></p> <h3>รีวิวทั้งหมด:</h3>
+    <div id="reviewList">
+        </div>
+</section>
+  <!-- ใส่ script ที่นี่ -->
+  <script src="Review.js"></script>
+</body>
+</html>
