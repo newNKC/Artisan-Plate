@@ -1,11 +1,10 @@
-// FRC.js - Send to Google Sheets only after QR scanned (scanDoneBtn clicked)
+// FRC.js - Final flow: validate -> show QR -> after QR scanned send -> on success show booking info & set status
 
 // --- 1. CONSTANTS AND STATE ---
 const AVAILABLE_TABLES = 10;
 const MAX_GUESTS_PER_TABLE = 4;
-let currentBookings = 0; // State for client-side capacity simulation
+let currentBookings = 0;
 
-// CONFIG: set your Apps Script Web App URL and target spreadsheet ID
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxnHpWuUOzyi3gRIdVJxwWM3_EjMeGPe5ZPZQb3LIZcnzYLaw7X5G9GPIqw3M8ett2RBw/exec"; 
 const SPREADSHEET_ID = "1xiNEq3JNLR9IjqJHnCHngws-diUvx5o5OaWuJ9tVAqY";
 const SHEET_NAME = "FRC"; 
@@ -20,6 +19,7 @@ const billText = document.getElementById("billText");
 const scanDoneBtn = document.getElementById("scanDoneBtn");
 const closeModalBtn = document.getElementById("closeModalBtn");
 const tablesRemainingDisplay = document.getElementById('tablesRemainingDisplay'); 
+const bookingStatusEl = document.getElementById('bookingStatus'); // optional element to show status
 
 let statusEl = document.getElementById("sheetStatus");
 if (!statusEl) {
@@ -39,6 +39,12 @@ function showStatus(message, ok = true) {
   if (!statusEl) return;
   statusEl.textContent = message;
   statusEl.style.color = ok ? "green" : "crimson";
+}
+
+function updateBookingStatusUI(text, ok = true) {
+  if (!bookingStatusEl) return;
+  bookingStatusEl.textContent = text;
+  bookingStatusEl.style.color = ok ? "green" : "crimson";
 }
 
 function updateTablesDisplay() {
@@ -74,6 +80,7 @@ function showBillModal(text, isSuccess) {
         modalContent.classList.add('failure');
     }
 
+    // hide QR when showing final bill
     if (qrSection) qrSection.classList.add("hidden");
     billModal.classList.remove("hidden");
 }
@@ -82,9 +89,13 @@ function showBillModal(text, isSuccess) {
 async function sendPendingReservation() {
   if (!pendingPayload || hasSentPending) return;
   hasSentPending = true;
-  showStatus("Sending reservation to Google Sheets...", true);
+  showStatus("Finalizing reservation and saving to Google Sheets...", true);
+  updateBookingStatusUI("Finalizing...");
 
   try {
+    // add status field to payload so sheet can record it
+    pendingPayload.status = "confirmed";
+
     const body = new URLSearchParams();
     Object.keys(pendingPayload).forEach(k => body.append(k, pendingPayload[k]));
 
@@ -103,22 +114,25 @@ async function sendPendingReservation() {
 
     if (resp.ok && json && json.status === "success") {
       showStatus("Reservation saved to Google Sheet ✅ (" + (json.sheet||SHEET_NAME) + ")", true);
+      updateBookingStatusUI("Confirmed", true);
       // show modal with success bookingInfo
       showBillModal(bookingInfo, true);
     } else {
       showStatus("Failed to save to sheet. Please try again.", false);
+      updateBookingStatusUI("Save failed", false);
       showBillModal("Failed to save to sheet. Please try again.", false);
     }
   } catch (err) {
     showStatus("Network error while saving to sheet: " + err.message, false);
+    updateBookingStatusUI("Network error", false);
     showBillModal("Network error while saving to sheet: " + err.message, false);
   } finally {
-    // clear pending after attempt
+    // clear pending after attempt (keep bookingInfo for display)
     pendingPayload = null;
   }
 }
 
-// --- 5. MAIN SUBMIT HANDLER (prepare payload but do NOT send) ---
+// --- 5. MAIN SUBMIT HANDLER (prepare payload but DO NOT send) ---
 if (form) {
     form.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -131,7 +145,7 @@ if (form) {
 
         let message = '';
 
-        // 1. CLIENT-SIDE VALIDATION & CAPACITY CHECK
+        // 1. VALIDATION
         const dateCheckResult = checkDateTime(date, time);
         if (!dateCheckResult.isValid) {
             message = `❌ **จองไม่ได้** ❌\n\nเหตุผล: ${dateCheckResult.message}`;
@@ -139,6 +153,7 @@ if (form) {
             return;
         }
 
+        // 2. CAPACITY CHECK (client-side simulation)
         const tablesNeeded = Math.ceil(guests / MAX_GUESTS_PER_TABLE);
         const remainingTables = AVAILABLE_TABLES - currentBookings; 
 
@@ -148,18 +163,18 @@ if (form) {
             return;
         }
 
-        // simulate reservation (client-side)
+        // reserve in UI simulation (not yet stored server-side)
         currentBookings += tablesNeeded; 
         updateTablesDisplay(); 
         const tablesLeft = AVAILABLE_TABLES - currentBookings;
 
-        // prepare reservation details and pending payload (do NOT send yet)
+        // prepare reservation details and pending payload (DO NOT send yet)
         const total = guests * PRICE_PER_PERSON;
         const billNo = "BILL-" + Math.floor(Math.random() * 999999);
         const table = "Table-" + (Math.floor(Math.random() * AVAILABLE_TABLES) + 1); 
 
         bookingInfo = 
-            `✅ **จองโต๊ะสำเร็จ!**\n\n` +
+            `✅ **จองโต๊ะสำเร็จ! (รอการยืนยัน)**\n\n` +
             `เลขที่บิล: ${billNo}\n` +
             `ชื่อผู้จอง: ${name}\n` +
             `เบอร์โทร: ${phone}\n` +
@@ -184,26 +199,25 @@ if (form) {
             contact: phone,
             billNo: billNo,
             table: table,
-            total: total
+            total: total,
+            status: "pending" // initial state
         };
         if (SECRET_TOKEN) pendingPayload._token = SECRET_TOKEN;
 
-        // Do NOT call send here; wait for QR scan confirmation (scanDoneBtn)
+        // Update UI status (only prepared, not sent)
+        updateBookingStatusUI("Prepared — waiting QR scan", true);
         showStatus("Reservation prepared — scan QR to finalize.", true);
     });
 }
 
-// --- 6. QR SCAN / REVIEW HANDLERS ---
-// When user confirms QR scanned, send the pending reservation
+// --- 6. QR SCAN (finalize) ---
 if (scanDoneBtn) {
   scanDoneBtn.addEventListener("click", async () => {
-    // Show modal and send reservation if pending
     if (bookingInfo && pendingPayload) {
-      // Optionally show immediate modal indicating sending is starting
-      showStatus("Finalizing reservation and saving to Google Sheets...", true);
+      // send now
       await sendPendingReservation();
     } else if (bookingInfo) {
-      // nothing pending (already sent) — just show the bill
+      // booking exists but already sent or no pending payload
       showBillModal(bookingInfo, true);
     } else {
       showStatus("No reservation to finalize.", false);
@@ -211,7 +225,7 @@ if (scanDoneBtn) {
   });
 }
 
-// Close modal behavior
+// --- 7. MODAL / CLOSE HANDLERS ---
 if (closeModalBtn) {
     closeModalBtn.addEventListener("click", () => {
         if (billModal) billModal.classList.add("hidden");
@@ -219,6 +233,7 @@ if (closeModalBtn) {
         if (form) form.reset();
         if (form) form.classList.remove("hidden");
         showStatus("", true);
+        updateBookingStatusUI("");
     });
 }
 
@@ -230,6 +245,7 @@ if (billModal) {
             if (form) form.reset();
             if (form) form.classList.remove("hidden");
             showStatus("", true);
+            updateBookingStatusUI("");
         }
     });
 }
