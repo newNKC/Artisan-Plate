@@ -84,14 +84,14 @@ body{
   border:1px solid var(--stroke); transition:.25s; font-weight:600;
 }
 .btn-primary{
-  background:linear-gradient(90deg, rgba(110,243,255,.14), rgba(125,125,255,.14));
+  background:linear-gradient(90deg, rgba(255, 255, 255, 0.14), rgba(125,125,255,.14));
 }
 .btn-primary:hover{
-  box-shadow:0 6px 24px rgba(125,125,255,.25), inset 0 0 0 1px rgba(255,255,255,.05);
+  background:linear-gradient(90deg, rgba(110,243,255,.25), rgba(125,125,255,.25));
 }
 .btn-ghost:hover{background:var(--panel)}
 .btn-ghost {
-  color: #FFE0B2;
+  color: hsl(49, 100%, 60%);
 }
 
 /* Sections */
