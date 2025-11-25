@@ -49,32 +49,70 @@ body{
   background:linear-gradient(to bottom, rgba(11,15,20,.75), rgba(11,15,20,.25));
   border-bottom:1px solid var(--stroke);
 }
-.brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--txt)}
+
+.brand{
+  display:flex; align-items:center; gap:10px;
+  text-decoration:none;
+  color:var(--txt);
+}
+
 .brand-dot{
   width:10px; height:10px; border-radius:50%;
   background: radial-gradient(circle at 30% 30%, var(--primary), var(--primary-2));
   box-shadow:0 0 20px var(--primary);
 }
-.brand-text{font-weight:700; letter-spacing:.3px ; font-size: 1.36em;}
+
+.brand-text{
+  font-weight:700;
+  letter-spacing:.3px;
+  font-size: 1.36em;
+}
 .brand-text .sub{opacity:.6}
 
 .nav-toggle{display:none}
 .nav-list{display:flex; gap:18px; list-style:none; margin:0; padding:0}
+
 .nav-list a{
-  color:var(--txt); text-decoration:none; padding:8px 12px;
-  border-radius:10px; transition:.25s;
+  background: rgba(40, 25, 20, 0.6);
+  color: var(--txt);
+  text-decoration:none;
+  padding:8px 12px;
+  border-radius:10px;
+  transition:.25s;
 }
-.nav-list a:hover{background:var(--panel)}
+
+.nav-list a:visited,
+.nav-list a:active,
+.nav-list a:focus{
+  color: var(--txt);
+}
+
+.nav-list a:hover{
+  background: rgba(90, 60, 50, 0.8);
+  color: #fff;
+}
 
 @media (max-width: 880px){
   .nav-toggle{display:block}
   .nav-list{
-    position:absolute; right:16px; top:64px; flex-direction:column; gap:8px;
-    background:var(--glass); border:1px solid var(--stroke); padding:12px; border-radius:14px;
-    transform-origin:top right; transform:scale(.98); opacity:0; pointer-events:none; transition:.2s;
+    position:absolute; right:16px; top:64px;
+    flex-direction:column; gap:8px;
+    background:var(--glass);
+    border:1px solid var(--stroke);
+    padding:12px;
+    border-radius:14px;
+    transform-origin:top right;
+    transform:scale(.98);
+    opacity:0;
+    pointer-events:none;
+    transition:.2s;
     box-shadow: var(--shadow);
   }
-  .nav-list.open{transform:scale(1); opacity:1; pointer-events:auto}
+  .nav-list.open{
+    transform:scale(1);
+    opacity:1;
+    pointer-events:auto;
+  }
 }
 
 /* Buttons */
@@ -243,4 +281,111 @@ input:focus, textarea:focus{
 }
 .nice-table th, .nice-table td{
   padding:12px 14px; text-align:center;
+}
+
+.review-btn {
+  margin-top: 12px;
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+
+  background: rgba(255, 215, 130, 0.12); /* ทองโปร่งใส */
+  border: 1px solid rgba(255, 215, 130, 0.35); 
+  color: #ffd57f; /* สีทองอ่อน */
+  transition: 0.25s;
+}
+
+.review-btn:hover {
+  background: rgba(255, 215, 130, 0.25);
+  border-color: rgba(255, 215, 130, 0.6);
+  box-shadow: 0 0 14px rgba(255, 220, 180, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-modern {
+    background: linear-gradient(135deg, #4A90E2, #007AFF);
+    color: white !important;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    display: inline-block;
+    transition: 0.25s ease;
+}
+
+.btn-modern:hover {
+    background: linear-gradient(135deg, #5AA0F2, #1A8CFF);
+    transform: translateY(-2px);
+}
+
+.btn-outline-modern {
+    background: white;
+    color: #007AFF !important;
+    padding: 12px 24px;
+    border: 2px solid #007AFF;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    display: inline-block;
+    transition: 0.25s ease;
+}
+
+.btn-outline-modern:hover {
+    background: #E9F3FF;
+    transform: translateY(-2px);
+}
+
+/* ปุ่ม Select */
+.btn-gold-modern {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 14px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+
+  background: linear-gradient(135deg, rgba(255,215,140,0.4), rgba(255,188,80,0.4));
+  border: 1px solid rgba(255,220,150,0.7);
+  color: #ffd68c;
+
+  transition: 0.25s ease;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 0 6px rgba(255,215,140,0.3);
+}
+
+.btn-gold-modern:hover {
+  background: linear-gradient(135deg, rgba(255,215,140,0.6), rgba(255,188,80,0.6));
+  box-shadow: 0 0 14px rgba(255,215,140,0.6);
+  color: #fff3d0;
+  transform: translateY(-2px);
+}
+
+/* ปุ่ม ดูรายการอาหาร */
+.btn-gold-modern-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 14px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+
+  background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,248,220,0.8));
+  border: 1px solid rgba(255,220,150,0.7);
+  color: #b38f5d;
+
+  transition: 0.25s ease;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 0 6px rgba(255,215,140,0.3);
+}
+
+.btn-gold-modern-light:hover {
+  background: linear-gradient(135deg, rgba(255,255,255,1), rgba(255,248,220,1));
+  box-shadow: 0 0 14px rgba(255,215,140,0.6);
+  color: #ffd68c;
+  transform: translateY(-2px);
 }
