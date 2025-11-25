@@ -21,7 +21,7 @@ if (!statusEl) {
   if (form && form.parentNode) form.parentNode.insertBefore(statusEl, form.nextSibling);
 }
 
-const PRICE_PER_PERSON = 200;
+const PRICE_PER_PERSON = 1700;
 let bookingInfo = "";
 let pendingPayload = null;
 let hasSent = false;
