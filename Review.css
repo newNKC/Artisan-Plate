@@ -1,0 +1,216 @@
+:root{
+  --bg:oklab(18.281% 0.03454 0.02707 / 0.911);
+  --panel:rgba(123, 134, 24, 0.04);
+  --glass:rgba(99, 99, 99, 0.55);
+  --stroke:rgba(255,255,255,.12);
+  --txt:#ffffff;
+  --muted:#7b9597;
+  --primary:#ffffff;
+  --primary-2:#0206fa;
+  --shadow:0 10px 40px rgba(247, 247, 247, 0.45);
+  --radius:16px;
+  --border: var(--radius);
+  --fg: var(--txt);
+  --cy: var(--primary);
+}
+body {
+  font-family: Arial, sans-serif;
+  background: #180505e8;
+  margin: 0;
+  padding: 20px 10px 40px;
+  color: #111111;
+  text-align: center;
+}
+h1{
+    color: #feffff;
+}
+
+/* พื้นหลังมีเคลื่อนไหวเบา ๆ */
+.bg {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at top, oklab(18.281% 0.03454 0.02707 / 0.911), transparent 55%),
+    radial-gradient(circle at bottom right, #06b6d4, transparent 55%);
+  opacity: 0.35;
+  z-index: -1;
+  animation: floatBg 10s ease-in-out infinite alternate;
+}
+
+@keyframes floatBg {
+  from { transform: translate3d(0,0,0); }
+  to   { transform: translate3d(0,12px,0); }
+}
+
+.title {
+  margin-top: 20px;
+  font-size: 26px;
+  letter-spacing: 0.1em;
+}
+
+/* กล่องตรงกลาง */
+.center-box {
+  background: oklab(86.483% 0.02728 0.07533);
+  width: 340px;
+  max-width: 95%;
+  margin: 20px auto 0;
+  padding: 18px 16px 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.5s ease-out;
+  
+}
+
+
+.center-box h3 {
+
+  margin: 4px 0 6px;
+}
+
+.sub {
+  font-size: 13px;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+/* input / select / textarea */
+input, select, textarea {
+  width: 90%;
+  max-width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 9px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  outline: none;
+  background: rgba(15, 23, 42, 0.9);
+  color: #f9fafb;
+  font-size: 13px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(148, 163, 184, 0.8);
+}
+
+textarea {
+  margin-top: 10px;
+  height: 80px;
+  resize: vertical;
+}
+p{
+    
+}
+
+/* ปุ่ม */
+button {
+  margin-top: 12px;
+  padding: 10px 20px;
+  background: linear-gradient(90deg,#6d1111a9,#422908dc);
+  border: none;
+  color: white;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+
+button:hover {
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.9);
+  filter: brightness(1.05);
+}
+
+#reviewSection {
+    color: white;
+}
+
+.label {
+  display: block;
+  width: 90%;
+  max-width: 100%;
+  margin: 10px auto 4px;
+  text-align: left;
+  font-size: 13px;
+}
+
+.status-text {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #000000;
+}
+
+/* กล่องรีวิวทั้งหมด */
+.reviews-box {
+  margin-top: 16px;
+}
+
+#reviewList {
+  margin-top: 10px;
+  text-align: left;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.review-card {
+  background: rgba(15, 23, 42, 0.95);
+  border-radius: 12px;
+  padding: 10px 10px 8px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  animation: popIn 0.3s ease-out;
+}
+
+.review-card strong {
+  font-size: 14px;
+}
+
+.review-card p {
+  margin: 6px 0;
+  font-size: 13px;
+}
+
+.review-card small {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.delete-btn {
+  margin-top: 6px;
+  width: 100%;
+  background: #ef4444;
+}
+
+/* ซ่อน/แสดงส่วนต่าง ๆ */
+.hidden {
+  display: none;
+}
+
+/* แอนิเมชัน */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px);}
+  to   { opacity: 1; transform: translateY(0);}
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(6px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .title {
+    font-size: 22px;
+  }
+}
+.grid.cards{
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:18px;
+}
+@media (max-width:980px){.grid.cards{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){.grid.cards{grid-template-columns:1fr}}
+
+
+
+
