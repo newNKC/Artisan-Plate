@@ -123,6 +123,10 @@ button:hover {
   filter: brightness(1.05);
 }
 
+#reviewSection {
+    color: white;
+}
+
 .label {
   display: block;
   width: 90%;
@@ -135,7 +139,7 @@ button:hover {
 .status-text {
   margin-top: 8px;
   font-size: 13px;
-  color: #e5e7eb;
+  color: #000000;
 }
 
 /* กล่องรีวิวทั้งหมด */
