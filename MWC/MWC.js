@@ -92,7 +92,7 @@ if (form) {
     };
     if (SECRET_TOKEN) pendingPayload._token = SECRET_TOKEN;
 
-    showStatus("Reservation prepared — scan QR to finalize.", true);
+    showStatus("Reservation prepared — confirm to finalize.", true);
   });
 }
 
